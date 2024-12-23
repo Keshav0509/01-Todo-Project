@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="./style.css">
+  <title>my todo app</title>
+</head>
+<body>
+  <header class="nav-Container">
+    <nav class="nav">
+      <section class="leftSection">
+        <div class="logo">
+          code2go
+        </div>
+        <div class="burger-icon">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </section>
+      <section class="rightSection">
+        <div class="link-container">
+          <ul class="link">
+            <li>
+              <a href="#">home</a>
+            </li>
+            <li>
+              <a href="#">projects</a>
+            </li>
+            <li>
+              <a href="#">about</a>
+            </li>
+            <li>
+              <a href="#">contact</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </nav>
+  </header>
+  <main>
+    <div class="center-div">
+      <div class="title">
+        <h3>My To Do Project</h3>
+      </div>
+      <div class="todo-container">
+        <header class="todo-header">
+          <div class="todo-title">
+            <h4>add todo</h4>
+          </div>
+          <div class="todo-input-container todo-form">
+            <input type="text" placeholder="eg. My Task..." class="todo-input">
+            <input type="date" placeholder="DD/MM/YYYY" class="todo-date">
+            <button class="todo-btn">add todo</button>
+          </div>
+        </header>
+
+        <section class="todo-body">
+          <div class="card">
+            <h4>todo name</h4>
+            <h4>todo date</h4>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="todo-list">
+            <!-- <section class="todo">
+              <div class="todo-name">
+               wash dishes 
+              </div>
+              <div class="todo-date">
+                25-12-2025
+              </div>
+              <div class="todo-edit">
+                <i class="fa fa-edit"></i>
+              </div>
+              <div class="todo-delete">
+                <i class="fa fa-trash"></i>
+              </div>
+            </section>
+             <section class="todo">
+              <div class="todo-name">
+               make dinner 
+              </div>
+              <div class="todo-date">
+                28-12-2025
+              </div>
+              <div class="todo-edit">
+                <i class="fa fa-edit"></i>
+              </div>
+              <div class="todo-delete">
+                <i class="fa fa-trash"></i>
+              </div>
+            </section> -->
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
