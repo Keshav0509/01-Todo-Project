@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Todo List</title>
+    /*
+    <link rel="stylesheet" href="style.css" />
+    */
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Mr+Dafoe&family=Outfit:wght@100..900&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Outfit", sans-serif;
+      }
+
+      body {
+        background: #051b24;
+        padding: 40px 20px;
+      }
+
+      .container {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 600px;
+        background: #e8f3f9;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+      }
+
+      .todo-title h1 {
+        color: #1a1a1a;
+        text-align: center;
+      }
+
+      .input-section {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #fff;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        transition: border-color 0.3s;
+        outline: none;
+      }
+
+      button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+      }
+
+      button:hover {
+        background: #45a049;
+      }
+      .add-btn {
+        margin-right: 4px;
+        background: #4caf50;
+        border-radius: 8px;
+        padding: 8px 20px;
+      }
+      .sort-section {
+        display: flex;
+        justify-content: right;
+      }
+
+      .sort-button {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #ccc;
+        padding: 8px 16px;
+        font-size: 14px;
+        border-radius: 10px;
+      }
+
+      .sort-button:hover {
+        background: #eee;
+      }
+
+      .todo-section {
+        border: 1px solid #e0e0e0;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .section-header {
+        background: #f8f9fa;
+        padding: 12px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .section-header-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-header h2 {
+        font-size: 18px;
+        color: #333;
+      }
+
+      .section-header .count {
+        background: #e0e0e0;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 14px;
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+
+      .section-content.expanded {
+        overflow: auto;
+        max-height: 1000px;
+      }
+
+      .todo-item {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        background: #f8f9fa;
+        margin: 8px;
+        border-radius: 8px;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .todo-text {
+        flex: 1;
+        margin-right: 10px;
+      }
+
+      .todo-item.completed .todo-text {
+        text-decoration: line-through;
+        color: #666;
+      }
+
+      .delete-btn {
+        background: none;
+        color: #8a2727;
+        padding: 12px;
+        border-radius: 100%;
+      }
+
+      .delete-btn:hover {
+        background: #eee;
+      }
+
+      .chevron {
+        transition: transform 0.3s ease;
+        font-size: 20px;
+      }
+
+      .section-header.active .chevron {
+        transform: rotate(180deg);
+      }
+      .checkbox {
+        appearance: none;
+        background-color: transparent;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #666;
+        border-radius: 100%;
+        display: grid;
+        place-content: center;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      .checkbox::before {
+        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 -2 24 24' style='fill: rgba(255, 255, 255, 1);transform: ;msFilter:;'%3E%3Cpath d='m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z'%3E%3C/path%3E%3C/svg%3E");
+        transform: scale(0);
+      }
+      .checkbox:checked {
+        background-color: #8d51e8;
+        border-color: #8d51e8;
+      }
+      .checkbox:checked::before {
+        transform: scale(1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="todo-title">
+        <h1>Todo List</h1>
+      </div>
+
+      <div class="input-section">
+        <input type="text" id="todoInput" placeholder="Add a new task..." />
+        <button class="add-btn" onclick="addTodo()">
+          <i class="bx bx-list-plus"></i> Add
+        </button>
+      </div>
+
+      <div class="sort-section">
+        <button class="sort-button" onclick="toggleSort()">
+          Sort by Oldest <i class="bx bx-sort"></i>
+        </button>
+      </div>
+
+      <div class="todo-section">
+        <div class="section-header active" onclick="toggleSection('uncompleted')">
+          <div class="section-header-row">
+            <h2>Uncompleted Tasks</h2>
+            <span class="count" id="uncompleted-count">0</span>
+          </div>
+          <span class="chevron"><i class="bx bx-chevron-down"></i></span>
+        </div>
+        <div class="section-content expanded" id="uncompleted-section">
+          <ul id="uncompletedList">
+            <li class="todo-item">
+              <input type="checkbox" class="checkbox" />
+              <span class="todo-text">Play games</span>
+              <button class="delete-btn"><i class="bx bx-trash"></i></button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="todo-section">
+        <div class="section-header" onclick="toggleSection('completed')">
+          <div class="section-header-row">
+            <h2>Completed Tasks</h2>
+            <span class="count" id="completed-count">0</span>
+          </div>
+          <span class="chevron"><i class="bx bx-chevron-down"></i></span>
+        </div>
+        <div class="section-content" id="completed-section">
+          <ul id="completedList"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let todos = JSON.parse(localStorage.getItem("todos")) || [];
+      let isLatestFirst =
+        JSON.parse(localStorage.getItem("isLatestFirst")) || true;
+
+      document
+        .getElementById("todoInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            addTodo();
+          }
+        });
+
+      function toggleSection(section) {
+        const content = document.getElementById(`${section}-section`);
+        const header = content.previousElementSibling;
+        content.classList.toggle("expanded");
+        header.classList.toggle("active");
+      }
+
+      function addTodo() {
+        const input = document.getElementById("todoInput");
+        const text = input.value.trim();
+
+        if (text) {
+          const todo = {
+            id: Date.now(),
+            text: text,
+            completed: false,
+            timestamp: new Date(),
+          };
+
+          todos.push(todo);
+          saveTodos(); // Save to local storage
+          input.value = "";
+          renderTodos();
+        }
+      }
+
+      function deleteTodo(id) {
+        todos = todos.filter((todo) => todo.id !== id);
+        saveTodos(); // Save to local storage
+        renderTodos();
+      }
+
+      function toggleComplete(id) {
+        todos = todos.map((todo) =>
+          todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        );
+        saveTodos(); // Save to local storage
+        renderTodos();
+      }
+
+      function toggleSort() {
+        isLatestFirst = !isLatestFirst;
+        localStorage.setItem("isLatestFirst", JSON.stringify(isLatestFirst)); // Save sort preference
+        const button = document.querySelector(".sort-button");
+        button.innerHTML = isLatestFirst
+          ? "Sort by Oldest <i class='bx bx-sort' ></i>"
+          : "Sort by Latest <i class='bx bx-sort' ></i>";
+        renderTodos();
+      }
+
+      function renderTodos() {
+        const uncompletedList = document.getElementById("uncompletedList");
+        const completedList = document.getElementById("completedList");
+        uncompletedList.innerHTML = "";
+        completedList.innerHTML = "";
+
+        const sortedTodos = [...todos].sort((a, b) => {
+          const dateA = new Date(a.timestamp);
+          const dateB = new Date(b.timestamp);
+
+          return isLatestFirst ? dateB - dateA : dateA - dateB;
+        });
+
+        let completedCount = 0;
+        let uncompletedCount = 0;
+
+        sortedTodos.forEach((todo) => {
+          const li = document.createElement("li");
+          li.className = `todo-item ${todo.completed ? "completed" : ""}`;
+
+          li.innerHTML = `
+                  <input type="checkbox" 
+                      class="checkbox" 
+                      ${todo.completed ? "checked" : ""} 
+                      onclick="toggleComplete(${todo.id})">
+                  <span class="todo-text">${todo.text}</span>
+                  <button class="delete-btn" onclick="deleteTodo(${
+                    todo.id
+                  })"><i class='bx bx-trash' ></i></button>
+              `;
+
+          if (todo.completed) {
+            completedList.appendChild(li);
+            completedCount++;
+          } else {
+            uncompletedList.appendChild(li);
+            uncompletedCount++;
+          }
+        });
+
+        // Update counters
+        document.getElementById("completed-count").textContent = completedCount;
+        document.getElementById("uncompleted-count").textContent =
+          uncompletedCount;
+
+        // Update the sort button label on render
+        const button = document.querySelector(".sort-button");
+        button.innerHTML = isLatestFirst
+          ? "Sort by Oldest <i class='bx bx-sort' ></i>"
+          : "Sort by Latest <i class='bx bx-sort' ></i>";
+      }
+
+      // Save todos to local storage
+      function saveTodos() {
+        localStorage.setItem("todos", JSON.stringify(todos));
+        localStorage.setItem("isLatestFirst", JSON.stringify(isLatestFirst));
+      }
+
+      // Initial load from local storage and render
+      // renderTodos();
+      window.onload = function () {
+        renderTodos();
+        // restoreSectionStates();
+      };
+    </script>
+  </body>
+</html>

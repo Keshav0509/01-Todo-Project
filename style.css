@@ -159,6 +159,7 @@ a {
   max-width: 900px;
   margin: auto;
   padding: 20px;
+  border-radius: 10px;
 }
 .todo-title h1{
   text-align: center;
@@ -224,14 +225,12 @@ a {
   margin-bottom: 20px;
   border-radius: 5px;
   padding: 10px;
-  /* overflow: auto; */
+  overflow: hidden;
 }
 .section-header{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* border-radius: ; */
-  border: 1px solid black;
 }
 .section-header-row{
   display: flex;
@@ -240,15 +239,12 @@ a {
   gap: 10px
 }
 .section-header-row span{
-  /* border: 1px solid black; */
   padding: 0 7px;
   border-radius: 100px;
   color: var(--clr-black);
   background: var(--clr-grey-9);
 }
 .chevron{
-  /* border: 1px solid black; */
-  /* padding: 2.5px 5px; */
   font-size: 30px;
   height: 20px;
   width: 20px;
@@ -259,7 +255,11 @@ a {
 .chevron-active{
   transform: rotate(180deg);
 }
-
+.todo-item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 
 
